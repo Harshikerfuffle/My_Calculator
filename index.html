@@ -1,14 +1,40 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="style.css">
-        <script src="file.js"></script>
-        <title>Energy Calculator</title>
-    </head>
-    
-    <body>
-        <input id="totalbill">
-        <button type="button” onclick="CalcTip()”> Calculate Tip</button>
-        <p id="showtip"></p>
-    </body>
-</html>
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <link rel="stylesheet" type="text/css" href="style.css">
+            <script type="text/javascript" src="js/jquery-3.4.0.min.js"></script>
+            <script type="text/javascript" src="file.js"></script>
+            <title>Energy Calculator</title>
+        </head>
+
+        <body>
+            <h1>Energy Calculator</h1>
+            <div>
+                <h3>How much electricity does your laptop use? What is the cost of eletricity used each time you charge your laptop?</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+            <button type="button" onclick="myInput()">Check your energy usage</button>
+
+            <div id="expandableContent" style="display:none">
+            <p>Enter the time in hours for the duration of charging your laptop</p>
+    <!--    create button to calculate energy-->
+            <input id="usertimeinput" placeholder="Enter the number of hours of usage">
+            <button id = "calculate" type="button" onclick="CalcEnergy()"> Calculate Energy</button>
+            <p id="showenergy"></p>
+
+    <!--   create button to save value in input box to local storage-->
+                <button id = 'save' onclick = saveValue()> Save </button>
+
+    <!--   create button to load value from local storage into the input box-->
+            <button id = 'load' onclick = loadValue()> Load Previous</button>
+            
+            <select id = "dropdown">
+                <option value="desktop">Desktop</option>
+                <option value="laptop">Laptop</option>
+                <option value="tablet">Tablet</option>
+                <option value="mobile">Mobile</option>
+                <option value="smartwatch">Smartwatch</option>
+            </select>
+            </div>
+        </body>
+    </html>
