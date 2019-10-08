@@ -1,0 +1,42 @@
+.body-container {
+	margin: 0;
+	padding: 25px;
+	border: none;
+	}
+
+div.progress{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.blog-footer {
+    padding: 1rem 0;
+    color: #999;
+    text-align: left;
+    background-color: #f9f9f9;
+    border-top: .05rem solid #e5e5e5;
+}
+
+.mb-2{
+    margin-bottom: .5rem!important;
+}
+
+.col-md-6 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
+    max-width: 50%;''
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.h-md-250 {
+    height: 200px;
+}
+
+.box-shadow {
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, .05);
+}
