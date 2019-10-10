@@ -15,9 +15,11 @@
         <title>Energy Calculator</title>
     </head>
 
+   <!--load the onLoadFunction() when the page loads and set the type of user-->
     <body onload=onloadFunction()>
         <nav class="navbar navbar-dark bg-dark">
-            <form class="form-inline">
+           <span class="navbar-brand mb-0 h1">Energy Calculator</span>
+            <form class="form-inline my-2 my-lg-0">
               <button class="navbar-toggler" onclick="setUser('Naive', 1)" type="button">Naive</button>
               <button class="navbar-toggler" onclick="setUser('Novice', 2)" type="button">Novice</button>
               <button class="navbar-toggler" onclick="setUser('Typical', 7)" type="button">Typical</button>
@@ -25,22 +27,31 @@
             </form>
         </nav>
         
+        <!--contains all the body content except the footer-->
+        <!--to make applying page padding easier-->
         <div class="body-container">
-            <h1>Energy Calculator</h1>
-            <div id = "intro content">
-                <h4>How much electricity does your laptop use? What is the cost of eletricity used each time you charge your laptop?</h4>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat..</p>
+            <div class = "intro-content">
+                <h1>Energy Calculator</h1>
+                <h4>How much electricity do your devices use? What is the cost of eletricity used each time you charge your laptop?</h4>
             </div>
+            <p>Determining how much electricity your appliances and home electronics use can help you understand how much money you are spending to use them. To use this calculator, you simply need to enter the wattage of your devices and the time they have been plugged. After this the calculator will tell you your energy usage and the cost of using the devices.The calculations are based on <a href = "https://www.electricchoice.com/electricity-prices-by-state/">average rates of electricity per kWh</a> which is 13.19 cents.</p><br/>
+            
+            <h6>The following are some ways to find the wattage of the product:</h6>
+            <ul>
+                <li>Stamped on the charger of appliance: It is usually stamped on the charger and the wattage listed is the maximum power drawn by the device.</li>
+                <li>Multiply the appliance ampere usage by the appliance voltage usage: If the wattage is not listed, it can still be estimated by multiplying the current drawn (in amperes for e.g. listed as 1.5A) with the voltage of the appliance.Most devices in the USA use 120 volts.</li>
+                <li>Use online resources to find the typical wattage of your device</li>
+            </ul>
 
-            <!--progress bar bootstrap-->
+            <!--PROGRESS BAR (bootstrap)-->
             <div class="progress">
                 <div id = "progress-bar" class="progress-bar bg-warning" role="progressbar" style="width: 0%"></div>
             </div>
 
-            <!--add popover-->
-            <button id="expand-check-energy" style = "display:none" onclick="myInput()" class="btn btn-secondary" data-container="body" data-toggle="popover" data-trigger = "hover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">Check your energy usage</button>
+            <!--POPOVER-->
+            <button id="expand-check-energy" style = "display:none" onclick="myInput()" class="btn btn-info mb-5" data-container="body" data-toggle="popover" data-trigger = "hover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">Check your energy usage</button>
 
-           <!--Naive User-->
+           <!--NAIVE USER-->
             <div id = "naive" style = "display:none">
                 <!--Add dropdown-->
                 <select id = "dropdown_naive">
@@ -49,40 +60,77 @@
                     <option value="tablet">Tablet</option>
                     <option value="mobile">Mobile</option>
                     <option value="smartwatch">Smartwatch</option>
-                </select>
-                <input id="userwattinput_naive" placeholder="Enter Power in Watts">
-                <input id="userhourinput_naive" placeholder="Enter time used in hours">
-                <button id = "calculate_naive" onclick = "calcTotalEnergyAndCost()">Calculate Energy and Cost</button>
+                </select><br/>
+                
+                <!--COACH MARK-->
+                <!--Add inputs, calculate button and coachmark-->
+                <form>
+                   <!--power input-->
+                    <div class="input-group mb-3 w-50">
+                        <input id="userwattinput_naive" type="number" class="form-control" placeholder="Enter power in Watts" onkeydown = "step1a()" required>
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon2">Watts</span>
+                        </div>
+                        <b id = "step1a">&lt Enter Power in Watts</b>
+                    </div>
 
-                <p id="showtotalcost_naive"></p>
+                   <!--time used input-->
+                    <div class="input-group mb-3 w-50">
+                        <input id="userhourinput_naive" type="number" class="form-control" placeholder="Enter time used in hours" onkeydown="step1b()" required>
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon2">Hours</span>
+                        </div>
+                        <b id = "step1b">&lt Enter Time used in Hours</b>
+                    </div>
+
+                   <!--button to calculate output-->
+                    <button id = "calculate_naive" class="btn btn-secondary" onclick = "calcTotalEnergyAndCost()">Calculate Energy and Cost</button>
+                    <b id = "step2" style = "display:none"> ^ Press Calculate</b>
+                    <p id="showtotalcost_naive"></p>
+                </form>
             </div>
 
-           <!--Advanced User-->
+           <!--TYPICAL AND ADVANCED USER COMMON-->
             <div id = "advanced" style = "display:none">
                 <div id = "expanded"></div>
 
                 <!--add another row of options-->
-                <button id = "add" onclick = "addMore()">Add More</button>
-
-                <button id = "calculate" onclick = "calcTotalEnergy()">Calculate Energy</button>
+                <button id = "add" class = "btn btn-warning mt-4" onclick = "addMore()">Add More</button>
+                
+                <!--OVERFLOW MENU-->
+                <!--only for advanced users-->
+                <button id = "OverflowButton" class = "btn btn-secondary my-2" onclick="myOverflow()" style = "display:none">Settings</button>
+                <div id="settingsselect" style="display:none">
+                   <label class="radio-inline"><input type=radio name="optradio" id="set1" name=myradio >kWh</label>
+                   <label class="radio-inline"><input type=radio name="optradio" id="set2" name=myradio >Joules</label>
+                   <label class="radio-inline"><input type=radio name="optradio" id="set3" name=myradio >KwH and Joules</label>
+                </div>
+                
+                <!--EXPANDABLE-->
+                <!--calculate energy use-->
+                <button id = "calculate" class="btn btn-info my-2" onclick = "calcTotalEnergy()">Calculate Energy</button>
                 <p id="showtotalenergy"></p>
-
-                <button id = "cost" onclick = "calcCostInCents()" style = "display:none">Calculate Cost</button>
+                
+                <!--calculate cost of energy use-->
+                <button id = "cost" class="btn btn-info my-2" onclick = "calcCostInCents()" style = "display:none">Calculate Cost</button>
                 <p id="showtotalcost"></p>
+            
             </div>
 
             <div>
-                <h4> How to reduce energy usage? </h4>
+                <h4> How can you reduce your energy usage? </h4>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
             </div>
 
-            <button type="button" class="btn btn-secondary" onclick = "document.getElementById('moreinfo').style.display='block'">More Info...</button>
-            <p style = "display:none" id = "moreinfo">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <!--HIDDEN INFORMATION-->
+            <button type="button" class="btn btn-info mb-4" onclick = "document.getElementById('moreinfo').style.display='block'">More Info...</button>
+            <p style = "display:none" id = "moreinfo">Many appliances continue to draw a small amount of stand-by power when they are switched "off." These "phantom loads" occur in most appliances that use electricity, such as televisions, stereos, computers, and kitchen appliances. Most phantom loads will increase the appliance's energy consumption a few watt-hours, and you can use a monitor to estimate those too. These loads can be avoided by unplugging the appliance or using a power strip and using the switch on the power strip to cut all power to the appliance. <a href = "https://www.energy.gov/energysaver/save-electricity-and-fuel/appliances-and-electronics/estimating-appliance-and-home">More information can be found here.</a></p>
 
-           <!--featured content-->
-            <div class="row mb-2">
+           <!--FEATURED CONTENT-->
+           <!--only for advanced users-->
+            <div class="row mb-2" id = "featured-content" style = "display:none">
                 <div class="col-md-6">
-                    <div class="card flex-md-row mb-4 box-shadow h-md-200">
+                    <div class="card flex-md-row mb-4 box-shadow-sm h-md-200">
                         <div class="card-body d-flex flex-column align-items-start">
                            <h5 class="mb-0">Top 5 Steps to Reduce Your Energy Consumption</h5>
                            <p class="card-text mb-auto">Computers are some of the biggest energy users in office buildings. LED bulbs are the most energy efficient lighting option...</p>
@@ -92,7 +140,7 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="card flex-md-row mb-4 box-shadow h-md-200">
+                    <div class="card flex-md-row mb-4 box-shadow-sm h-md-200">
                         <div class="card-body d-flex flex-column align-items-start">
                            <h5 class="mb-0">How does saving energy help the environment? 
                            </h5>
@@ -105,11 +153,13 @@
             </div>
         </div>
           
+        <!--footer-->
         <footer class = "blog-footer">
             <p>Posted by: Harshika Jain</p>
             <p>Contact information:<a href="mailto:harshikj@andrew.cmu.edu">harshikj@andrew.cmu.edu</a>.</p>
         </footer>
         
+        <!--document scripts of bootstrap-->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
