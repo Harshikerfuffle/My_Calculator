@@ -20,7 +20,7 @@
         <nav class="navbar navbar-dark bg-dark">
            <span class="navbar-brand mb-0 h1">Energy Calculator</span>
             <form class="form-inline my-2 my-lg-0">
-              <button class="navbar-toggler" onclick="setUser('Naive', 1)" type="button">Naive</button>
+              <button class="navbar-toggler" onclick="setUser('Naive', 0)" type="button">Naive</button>
               <button class="navbar-toggler" onclick="setUser('Novice', 2)" type="button">Novice</button>
               <button class="navbar-toggler" onclick="setUser('Typical', 7)" type="button">Typical</button>
               <button class="navbar-toggler" onclick="setUser('Advanced', 12)" type="button">Advanced</button>
@@ -36,10 +36,10 @@
             </div>
             <p>Determining how much electricity your appliances and home electronics use can help you understand how much money you are spending to use them. To use this calculator, you simply need to enter the wattage of your devices and the time they have been plugged. After this the calculator will tell you your energy usage and the cost of using the devices.The calculations are based on <a href = "https://www.electricchoice.com/electricity-prices-by-state/">average rates of electricity per kWh</a> which is 13.19 cents.</p><br/>
             
-            <h6>The following are some ways to find the wattage of the product:</h6>
+            <h6>How to find the wattage of a device:</h6>
             <ul>
                 <li>Stamped on the charger of appliance: It is usually stamped on the charger and the wattage listed is the maximum power drawn by the device.</li>
-                <li>Multiply the appliance ampere usage by the appliance voltage usage: If the wattage is not listed, it can still be estimated by multiplying the current drawn (in amperes for e.g. listed as 1.5A) with the voltage of the appliance.Most devices in the USA use 120 volts.</li>
+                <li>Multiply the appliance ampere usage by the appliance voltage usage: If the wattage is not listed, it can still be estimated by multiplying the current drawn (in amperes for e.g. listed as 1.5A) with the voltage of the appliance. Most devices in the USA use 120 volts.</li>
                 <li>Use online resources to find the typical wattage of your device</li>
             </ul>
 
@@ -54,7 +54,7 @@
            <!--NAIVE USER-->
             <div id = "naive" style = "display:none">
                 <!--Add dropdown-->
-                <select id = "dropdown_naive">
+                <select id = "dropdown_naive" class="btn btn-secondary dropdown-toggle mb-2">
                     <option value="desktop">Desktop</option>
                     <option value="laptop">Laptop</option>
                     <option value="tablet">Tablet</option>
@@ -67,7 +67,7 @@
                 <form>
                    <!--power input-->
                     <div class="input-group mb-3 w-50">
-                        <input id="userwattinput_naive" type="number" class="form-control" placeholder="Enter power in Watts" onkeydown = "step1a()" required>
+                        <input id="userwattinput_naive" type="number" class="form-control" onkeydown = "step1a()">
                         <div class="input-group-append">
                             <span class="input-group-text" id="basic-addon2">Watts</span>
                         </div>
@@ -76,7 +76,7 @@
 
                    <!--time used input-->
                     <div class="input-group mb-3 w-50">
-                        <input id="userhourinput_naive" type="number" class="form-control" placeholder="Enter time used in hours" onkeydown="step1b()" required>
+                        <input id="userhourinput_naive" type="number" class="form-control" onkeydown="step1b()">
                         <div class="input-group-append">
                             <span class="input-group-text" id="basic-addon2">Hours</span>
                         </div>
@@ -89,13 +89,46 @@
                     <p id="showtotalcost_naive"></p>
                 </form>
             </div>
+            
+            <!--NOVICE-->
+            <div id = "novice" style = "display:none">
+                <form class = "form-inline">
+                    <!--Add dropdown-->
+                    <select class="btn btn-secondary dropdown-toggle mb-2 mr-3">
+                        <option value="desktop">Desktop</option>
+                        <option value="laptop">Laptop</option>
+                        <option value="tablet">Tablet</option>
+                        <option value="mobile">Mobile</option>
+                        <option value="smartwatch">Smartwatch</option>
+                    </select>
+                  
+                   <!--power input-->
+                    <div class="input-group mb-3 mr-3 w-25">
+                        <input id ="userwattinput_novice" type="number" class="form-control" placeholder="Enter power in Watts" required>
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon2">Watts</span>
+                        </div>
+                    </div>
+                    
+                   <!--time used input-->
+                    <div class="input-group mb-3 w-25">
+                        <input id ="userhourinput_novice" type="number" class="form-control" placeholder="Enter time used in hours" required>
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon2">Hours</span>
+                        </div>
+                    </div>
+                </form>
+                <!--button to calculate output-->
+                <button class="btn btn-secondary" onclick = "calcTotalEnergyAndCostNovice()">Calculate Energy and Cost</button>
+                <p id="showtotalcost_novice"></p>
+            </div>
 
-           <!--TYPICAL AND ADVANCED USER COMMON-->
+            <!--TYPICAL AND ADVANCED USER COMMON-->
             <div id = "advanced" style = "display:none">
                 <div id = "expanded"></div>
 
                 <!--add another row of options-->
-                <button id = "add" class = "btn btn-warning mt-4" onclick = "addMore()">Add More</button>
+                <button id = "add" class = "btn btn-warning my-2 mr-3" onclick = "addMore()">Add More</button>
                 
                 <!--OVERFLOW MENU-->
                 <!--only for advanced users-->
@@ -119,12 +152,18 @@
 
             <div>
                 <h4> How can you reduce your energy usage? </h4>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p>Many appliances continue to draw a small amount of stand-by power when they are switched "off." These "phantom loads" occur in most appliances that use electricity, such as televisions, stereos, computers, and kitchen appliances. Most phantom loads will increase the appliance's energy consumption a few watt-hours, and you can use a monitor to estimate those too.</p>
             </div>
 
             <!--HIDDEN INFORMATION-->
             <button type="button" class="btn btn-info mb-4" onclick = "document.getElementById('moreinfo').style.display='block'">More Info...</button>
-            <p style = "display:none" id = "moreinfo">Many appliances continue to draw a small amount of stand-by power when they are switched "off." These "phantom loads" occur in most appliances that use electricity, such as televisions, stereos, computers, and kitchen appliances. Most phantom loads will increase the appliance's energy consumption a few watt-hours, and you can use a monitor to estimate those too. These loads can be avoided by unplugging the appliance or using a power strip and using the switch on the power strip to cut all power to the appliance. <a href = "https://www.energy.gov/energysaver/save-electricity-and-fuel/appliances-and-electronics/estimating-appliance-and-home">More information can be found here.</a></p>
+            <div style = "display:none" id = "moreinfo"> <p>These loads can be avoided by the following methods:</p>
+            <ul>
+                <li>Unplug the appliance when not in use</li>
+                <li>Use a power strip with switches to selectively cut off supply to appliances when they are plugged in and not in use</li>
+                <li>Delete screensavers which create random patterns on your screen when your PC is idle. They were designed to protect cathode-ray screens from local wear and no longer serve any purpose with LCD screens.</li>
+            </ul><a href = "https://www.energy.gov/energysaver/save-electricity-and-fuel/appliances-and-electronics/estimating-appliance-and-home">More information can be found here.</a>
+            </div>
 
            <!--FEATURED CONTENT-->
            <!--only for advanced users-->

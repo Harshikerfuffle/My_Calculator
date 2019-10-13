@@ -26,11 +26,13 @@ function onloadFunction() {
             // Show the expand button
             document.getElementById("expand-check-energy").style.display = "block";
             if (userType === "Advanced"){
-            document.getElementById("featured-content").style.display = "block";
-            document.getElementById("OverflowButton").style.display = "block";
+                document.getElementById("featured-content").style.display = "flex";
+                document.getElementById("OverflowButton").style.display = "block";
             }
-        }    
-        else {
+        } else if (userType == "Novice"){
+            document.getElementById("novice").style.display = "block";
+            
+        } else if (userType == "Naive"){
             document.getElementById("naive").style.display = "block";
         }
     } 
@@ -70,8 +72,8 @@ function addMore(){
                     '<option value="mobile">Mobile</option>' + 
                     '<option value="smartwatch">Smartwatch</option>' + 
                     '</select>' + 
-                    '<input class="form-control mr-3 mb-3" id="userwattinput" placeholder="Enter Power in Watts">' + 
-                    '<input class="form-control mb-3" id="userhourinput" placeholder="Enter time used in hours">' + '</form>'
+                    '<input class="form-control mr-3 mb-3 w-25" id="userwattinput" placeholder="Enter Power in Watts">' + 
+                    '<input class="form-control mb-3 w-25" id="userhourinput" placeholder="Enter time used in hours">' + '</form>'
     expanded.appendChild(divElement);
 //    let select = document.createElement("select");
 //    let option1 = document.createElement("option");
@@ -89,7 +91,7 @@ function getTotalEnergyInKWh() {
     sum = 0;
     for (let i = 0; i < expanded.children.length; i++) {
         let expanded_child = expanded.children[i];
-        sum = sum + (expanded_child.children[1].value * expanded_child.children[2].value);
+        sum = sum + (expanded_child.children[0].children[1].value * expanded_child.children[0].children[2].value);
     }
     sum = sum /1000;
     return sum;
@@ -120,21 +122,33 @@ function calcTotalEnergy() {
 //function for Advanced Users
 function calcCostInCents() {
     let energycost = getTotalEnergyInKWh() * 13.19;
-    document.getElementById("showtotalcost").innerHTML = "<div> The cost of your electricity consumption is " + energycost + " cents or $ " + energycost/100 + ".</div>";
-    document.getElementById("progress-bar").style.width = "75%";
+    document.getElementById("showtotalcost").innerHTML = "<div> The cost of your electricity consumption is " + energycost + " cents or $" + energycost/100 + ".</div>";
+    document.getElementById("progress-bar").style.width = "100%";
 }
 
 //function for Naive Users
 //CALCULATION
 function calcTotalEnergyAndCost() {
-    let energy = document.getElementById("userwattinput_naive").value * document.getElementById("userhourinput_naive").value;
+//    let energy = document.getElementById("userwattinput_naive").value * document.getElementById("userhourinput_naive").value;
+//    
+//    let energyInKwh = energy/1000;
+//    let costInCents = energyInKwh * 13.19;
+//    document.getElementById('showtotalcost_naive').innerHTML = "<div>Your devices used a total of " + energy + "kWh of energy which is " + energy * kwhToJoules + " J in Joules. The cost of your electricity consumption is " + costInCents + " cents or $" + costInCents/100 + ".</div>";
+//
+//    document.getElementById("progress-bar").style.width = "100%";
+//    document.getElementById("step2").style.display = "none";
+}
+
+//function for Novice Users
+//CALCULATION
+function calcTotalEnergyAndCostNovice() {
+    let energy = document.getElementById("userwattinput_novice").value * document.getElementById("userhourinput_novice").value;
     
     let energyInKwh = energy/1000;
     let costInCents = energyInKwh * 13.19;
-    document.getElementById('showtotalcost_naive').innerHTML = "<div>Your devices used a total of " + energy + "kWh of energy which is " + energy * kwhToJoules + " J in Joules. The cost of your electricity consumption is " + costInCents + " cents or $ " + costInCents/100 + ".</div>";
+    document.getElementById('showtotalcost_novice').innerHTML = "<div>Your devices used a total of " + energy + "kWh of energy which is " + energy * kwhToJoules + " J in Joules. The cost of your electricity consumption is " + costInCents + " cents or $ " + costInCents/100 + ".</div>";
 
     document.getElementById("progress-bar").style.width = "100%";
-    document.getElementById("step2").style.display = "none";
 }
 
 // function for walkthrough for Naive users
@@ -144,10 +158,10 @@ function step1a() {document.getElementById("step1a").style.display = "none";}
 function step1b() {
     document.getElementById("step1b").style.display = "none";
     document.getElementById("step2").style.display = "block";
+    document.getElementById("progress-bar").style.width = "50%";
 }
 
+// function for OVERFLOW MENU 
 function myOverflow(){
     document.getElementById('settingsselect').style.display='block';
 }
-
-
