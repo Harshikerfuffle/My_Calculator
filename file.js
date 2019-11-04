@@ -36,7 +36,8 @@ function onloadFunction() {
             document.getElementById("naive").style.display = "block";
         }
     } else {
-        /*Sorry! No Web Storage support.. */ }
+        /*Sorry! No Web Storage support.. */
+    }
 }
 
 //set user type so that it can be used in HTML for counting
@@ -101,14 +102,16 @@ function calcTotalEnergy() {
     s1 = document.getElementById("set1").checked;
     s2 = document.getElementById("set2").checked;
     s3 = document.getElementById("set3").checked;
-    if (s1) {
-        document.getElementById('showtotalenergy').innerHTML = "<div>Your devices used a total of " + energy + "kWh of energy.</div>";
-    }
-    if (s2) {
-        document.getElementById('showtotalenergy').innerHTML = "<div>Your devices used a total of " + energy * kwhToJoules + " Joules of energy.</div>";
-    }
-    if (s3) {
-        document.getElementById('showtotalenergy').innerHTML = "<div>Your devices used a total of " + energy + "kWh of energy which is " + energy * kwhToJoules + " J in Joules.</div>";
+    if (isNaN(energy)) {
+        alert("Please enter a number input");
+    } else {
+        if (s1) {
+            document.getElementById('showtotalenergy').innerHTML = "<div>Your devices used a total of " + energy + "kWh of energy.</div>";
+        } else if (s2) {
+            document.getElementById('showtotalenergy').innerHTML = "<div>Your devices used a total of " + energy * kwhToJoules + " Joules of energy.</div>";
+        } else if (s3) {
+            document.getElementById('showtotalenergy').innerHTML = "<div>Your devices used a total of " + energy + "kWh of energy which is " + energy * kwhToJoules + " J in Joules.</div>";
+        }
     }
 }
 

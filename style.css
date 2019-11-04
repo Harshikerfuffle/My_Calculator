@@ -29,3 +29,11 @@ div.progress{
     width: 100px;
 }
 
+.radio-label {
+    padding-right: 20px;
+}
+
+.radio-input {
+    margin-right: 8px;
+}
+
